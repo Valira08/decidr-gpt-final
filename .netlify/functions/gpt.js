@@ -7,7 +7,7 @@ DECIDR GPT-App
 
 // Datei: .netlify/functions/gpt.js
 ```js
-const OpenAI = require("openai");
+const { OpenAI } = require("openai");
 
 exports.handler = async function(event, context) {
   let body = {};
