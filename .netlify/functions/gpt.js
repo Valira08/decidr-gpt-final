@@ -1,13 +1,6 @@
-DECIDR GPT-App
-
-📄 index.html  → Benutzeroberfläche (bereits eingefügt)
-📂 .netlify/functions/gpt.js → GPT-Serverfunktion (jetzt korrigiert für kompatibles OpenAI SDK)
-📦 package.json → Abhängigkeit für openai (bereits vorhanden)
-
-
 // Datei: .netlify/functions/gpt.js
 ```js
-const { OpenAI } = require("openai");
+const OpenAI = require("openai");
 
 exports.handler = async function(event, context) {
   let body = {};
@@ -52,8 +45,10 @@ exports.handler = async function(event, context) {
 {
   "name": "decidr-gpt-app",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "openai": "^4.0.0"
   }
 }
 ```
+
