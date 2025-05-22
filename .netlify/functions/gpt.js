@@ -1,8 +1,6 @@
-// Datei: .netlify/functions/gpt.js
-```js
-const OpenAI = require("openai");
+import OpenAI from "openai";
 
-exports.handler = async function(event, context) {
+export async function handler(event, context) {
   let body = {};
   try {
     body = JSON.parse(event.body || "{}");
@@ -37,18 +35,4 @@ exports.handler = async function(event, context) {
   } catch (err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
-};
-```
-
-// Datei: package.json
-```json
-{
-  "name": "decidr-gpt-app",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "openai": "^4.0.0"
-  }
 }
-```
-
