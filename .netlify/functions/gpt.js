@@ -1,7 +1,16 @@
 const { Configuration, OpenAIApi } = require("openai");
 
 exports.handler = async function(event, context) {
-  const body = JSON.parse(event.body);
+  let body = {};
+  try {
+    body = JSON.parse(event.body || "{}");
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Ungültige JSON-Daten im Request" })
+    };
+  }
+
   const frage = body.frage || "";
   const entscheidung = body.entscheidung || "";
   const werte = body.werte || "";
