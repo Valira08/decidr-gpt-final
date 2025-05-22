@@ -1,4 +1,13 @@
-const { Configuration, OpenAIApi } = require("openai");
+DECIDR GPT-App
+
+📄 index.html  → Benutzeroberfläche (bereits eingefügt)
+📂 .netlify/functions/gpt.js → GPT-Serverfunktion (jetzt korrigiert für kompatibles OpenAI SDK)
+📦 package.json → Abhängigkeit für openai (bereits vorhanden)
+
+
+// Datei: .netlify/functions/gpt.js
+```js
+const OpenAI = require("openai");
 
 exports.handler = async function(event, context) {
   let body = {};
@@ -15,14 +24,12 @@ exports.handler = async function(event, context) {
   const entscheidung = body.entscheidung || "";
   const werte = body.werte || "";
 
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
   });
 
-  const openai = new OpenAIApi(configuration);
-
   try {
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: "Du bist eine ethisch reflektierte Entscheidungs-KI. Antworte kurz, sachlich und nachvollziehbar." },
@@ -32,9 +39,21 @@ exports.handler = async function(event, context) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ antwort: completion.data.choices[0].message.content })
+      body: JSON.stringify({ antwort: completion.choices[0].message.content })
     };
   } catch (err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 };
+```
+
+// Datei: package.json
+```json
+{
+  "name": "decidr-gpt-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
+```
